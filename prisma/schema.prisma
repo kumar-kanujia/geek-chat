@@ -16,9 +16,6 @@ model User {
   image         String?
   password      String?
   accounts      Account?
-
-  // isTwoFactorEnabled Boolean @default(false)
-  // twoFactorConfirmation TwoFactorConfirmation?
 }
 
 model Account {
