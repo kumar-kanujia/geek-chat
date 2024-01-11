@@ -7,7 +7,9 @@ type AuthLayoutProps = {
 const AuthLayout: FC<AuthLayoutProps> = ({ children }) => {
   return (
     <main className="bg-[url('/_images/login.jpg')] bg-cover h-full w-full">
-      {children}
+      <section className="flex justify-center items-center h-full w-full">
+        {children}
+      </section>
     </main>
   );
 };

@@ -1,10 +1,9 @@
-import LoginForm from "@/app/(auth)/_components/LoginForm";
+import RegisterForm from "@/app/(auth)/_components/RegisterForm";
 import SecondryButton from "@/components/auth/SecondryButton";
 import SocialFooter from "@/components/auth/SocialFooter";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -12,28 +11,25 @@ import {
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Login",
+  title: "Register",
 };
 
-const LoginPage = () => {
+const RegisterPage = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader className="text-center">
-        <CardTitle>Welcome Back</CardTitle>
-        <CardDescription>
-          We&apos;re so excited to see you agian!s
-        </CardDescription>
+        <CardTitle>Create an account</CardTitle>
       </CardHeader>
       <CardContent>
-        <LoginForm />
+        <RegisterForm />
       </CardContent>
       <CardFooter>
         <SocialFooter />
       </CardFooter>
       <CardFooter>
-        <SecondryButton href="/register" label="Need an account? Register" />
+        <SecondryButton href="/login" label="Already have an account?" />
       </CardFooter>
     </Card>
   );
 };
-export default LoginPage;
+export default RegisterPage;
