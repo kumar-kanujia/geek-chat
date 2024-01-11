@@ -6,6 +6,8 @@ import { getUserByEmail } from "@/db/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken } from "@/db/verificationToken";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export default async function login(
   values: z.infer<typeof LoginSchema>,
@@ -25,19 +27,17 @@ export default async function login(
     return { error: "User does not exist!" };
   }
 
-  //TODO: have to work on email verification
+  if (!existingUser.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    );
 
-  // if (!existingUser.emailVerified) {
-  //   const verificationToken = await generateVerificationToken(
-  //     existingUser.email
-  //   );
-
-  //   await sendVerificationEmail(
-  //     verificationToken.email,
-  //     verificationToken.token
-  //   );
-  //   return { error: "Please verify your email." };
-  // }
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+    return { error: "Please verify your email." };
+  }
 
   try {
     await signIn("credentials", {
