@@ -19,7 +19,7 @@ export const apiAuthPrefix: string = "/api/auth";
 export const authRoutes: string[] = [
   "/login",
   "/register",
-  "/error",
+  "/auth/error",
   "/reset",
   "/new-password",
   "/new-verification",

@@ -1,22 +1,11 @@
-import { auth } from "@/auth";
-import { db } from "@/db";
+import { currentUser } from "@/lib/auth";
 
 const HomePage = async () => {
-  const session = await auth();
-  const sess = session?.user;
-  const user = await db.user.findUnique({
-    where: {
-      email: sess?.email || "",
-    },
-    include: {
-      account: true,
-    },
-  });
-
+  const user = await currentUser();
   return (
     <div>
       HomePage
-      {user?.account?.id}
+      {user?.name}
     </div>
   );
 };

@@ -1,14 +1,10 @@
 "use client";
-
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { NewPasswordSchema } from "@/schemas/authSchema";
 
-import FormError from "@/components/FormError";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -18,38 +14,44 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { LoginSchema } from "@/schemas/authSchema";
-import login from "@/actions/authActions/login";
+import FormSuccess from "@/components/FormSuccess";
+import FormError from "@/components/FormError";
+import { Button } from "@/components/ui/button";
+import { useSearchParams } from "next/navigation";
+import { changePassword } from "@/actions/authActions/newPassword";
 
-const LoginForm = () => {
+const NewPasswordForm = () => {
   const searchParams = useSearchParams();
-
-  const urlError =
-    searchParams.get("error") === "OAuthAccountNotLinked"
-      ? "Email already exists."
-      : "";
+  const token = searchParams.get("token");
 
   const [isSubmitting, startSubmitTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
-  const callBackUrl = searchParams.get("callbackUrl");
+  useEffect(() => {
+    if (!token) {
+      setError("Invalid Token!!");
+    }
+  }, [token]);
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof NewPasswordSchema>>({
+    resolver: zodResolver(NewPasswordSchema),
     defaultValues: {
-      email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (values: z.infer<typeof NewPasswordSchema>) => {
     setError("");
+    setSuccess("");
     startSubmitTransition(() => {
-      login(values, callBackUrl)
+      changePassword(values, token)
         .then((data) => {
-          if (data?.error) {
+          setError(data?.error);
+          setSuccess(data?.success);
+          if (data?.success) {
             form.reset();
-            setError(data.error);
           }
         })
         .catch(() => setError("Something went wrong!!"));
@@ -60,24 +62,6 @@ const LoginForm = () => {
     <Form {...form}>
       <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <div className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    disabled={isSubmitting}
-                    placeholder="john.doe@example.com"
-                    type="email"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
           <FormField
             control={form.control}
             name="password"
@@ -92,26 +76,36 @@ const LoginForm = () => {
                     type="password"
                   />
                 </FormControl>
-                <Button
-                  size="sm"
-                  variant="link"
-                  className="px-0 font-normal"
-                  asChild
-                >
-                  <Link href="/reset">Forgot password?</Link>
-                </Button>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="confirmPassword"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirm Password</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isSubmitting}
+                    placeholder="******"
+                    type="password"
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
         </div>
-        <FormError message={error || urlError} />
+        <FormSuccess message={success} />
+        <FormError message={error} />
         <Button disabled={isSubmitting} type="submit" className="w-full">
-          Login
+          Change Password
         </Button>
       </form>
     </Form>
   );
 };
-
-export default LoginForm;
+export default NewPasswordForm;

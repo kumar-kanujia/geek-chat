@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { db } from ".";
+import { db } from "@/db";
 
 export const getVerificationTokenByEmail = async (email: string) => {
   try {

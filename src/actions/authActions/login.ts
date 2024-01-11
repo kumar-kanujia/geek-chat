@@ -1,13 +1,14 @@
 "use server";
 import { z } from "zod";
 
-import { LoginSchema } from "@/schemas/authSchema";
+import { LoginSchema, ResetSchema } from "@/schemas/authSchema";
 import { getUserByEmail } from "@/db/user";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
 import { AuthError } from "next-auth";
 import { generateVerificationToken } from "@/db/verificationToken";
-import { sendVerificationEmail } from "@/lib/mail";
+import { sendResetPasswordEmail, sendVerificationEmail } from "@/lib/mail";
+import { generateResetPasswordToken } from "@/db/passwordResetToken";
 
 export default async function login(
   values: z.infer<typeof LoginSchema>,
@@ -57,3 +58,28 @@ export default async function login(
     throw error;
   }
 }
+
+export const resetPassword = async (values: z.infer<typeof ResetSchema>) => {
+  const validatedValues = ResetSchema.safeParse(values);
+
+  if (!validatedValues.success) {
+    return { error: "Invalid Email!" };
+  }
+
+  const { email } = validatedValues.data;
+
+  const user = await getUserByEmail(email);
+
+  if (!user) {
+    return { error: "Email Not Found!" };
+  }
+
+  const resetPasswordToken = await generateResetPasswordToken(email);
+
+  await sendResetPasswordEmail(
+    resetPasswordToken.email,
+    resetPasswordToken.token
+  );
+
+  return { success: "Reset Email Sent!" };
+};

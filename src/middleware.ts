@@ -17,9 +17,14 @@ export default auth((req) => {
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
+  const isLogoutRoute = nextUrl.pathname === "/logout";
 
   if (isApiAuthRoute) {
     return null;
+  }
+
+  if (!isLoggedIn && isLogoutRoute) {
+    return NextResponse.redirect(new URL("/login", nextUrl));
   }
 
   if (isAuthRoute) {
