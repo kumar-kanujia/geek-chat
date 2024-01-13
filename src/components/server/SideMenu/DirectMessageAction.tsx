@@ -12,11 +12,11 @@ const DirectMessageAction = () => {
   const isActive = pathname === DIRECT_MESSAGE_PATHNAME;
   return (
     <MenuItem
-      href="/channels/me"
+      href={DIRECT_MESSAGE_PATHNAME}
       isActive={isActive}
       tooltipContent="Direct Messages"
       className={cn(
-        "mx-auto mb-2 flex items-center justify-center bg-foreground",
+        "mx-auto mb-2 flex items-center justify-center",
         isActive ? "bg-primary text-white" : "text-gray-300"
       )}
     >

@@ -1,8 +1,8 @@
 import Link from "next/link";
-import ActionTooltip from "./ActionTooltip";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import BorderedBadge from "@/components/ui/bordered-badge";
+import ActionTooltip from "@/components/ActionTooltip";
 
 const SideTip = ({ isActive }: { isActive?: boolean }) => (
   <div

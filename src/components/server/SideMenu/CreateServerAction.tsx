@@ -1,5 +1,5 @@
+import ActionTooltip from "@/components/ActionTooltip";
 import { MdAddCircle } from "react-icons/md";
-import ActionTooltip from "./ActionTooltip";
 
 const CreateServerAction = () => {
   return (

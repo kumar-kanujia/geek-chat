@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import ActionTooltip from "./ActionTooltip";
+import ActionTooltip from "../../ActionTooltip";
 
 export default function ThemeToggle() {
   const { setTheme } = useTheme();
