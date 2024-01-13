@@ -80,3 +80,14 @@ body,
     @apply bg-background text-foreground;
   }
 }
+
+/*
+  Hide scrollbar but keep scroll
+*/
+.hidden-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
