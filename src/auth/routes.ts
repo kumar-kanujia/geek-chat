@@ -29,4 +29,4 @@ export const authRoutes: string[] = [
  * An array of routes that are accessible to the public
  * @type {string[]}
  */
-export const publicRoutes: string[] = ["/"];
+export const publicRoutes: string[] = ["/", "/servers/me"];

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Open_Sans as Sans } from "next/font/google";
+import { Open_Sans as Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 
-const font = Sans({});
+const font = Sans({ subsets: ["latin", "latin-ext"] });
 
 export const metadata: Metadata = {
   title: "Geek Chat",
@@ -15,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
