@@ -1,4 +1,10 @@
+import ServerHeader from "./ServerHeader";
+
 const ServerMenu = () => {
-  return <div>ServerMenu</div>;
+  return (
+    <>
+      <ServerHeader />
+    </>
+  );
 };
 export default ServerMenu;
