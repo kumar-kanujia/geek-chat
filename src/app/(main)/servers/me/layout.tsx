@@ -4,6 +4,6 @@ type UserLayoutProps = {
   children: ReactNode;
 };
 const UserLayout: FC<UserLayoutProps> = ({ children }) => {
-  return <div className="h-full">{children}</div>;
+  return <div>{children}</div>;
 };
 export default UserLayout;
