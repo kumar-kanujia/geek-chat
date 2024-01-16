@@ -1,7 +1,9 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Open_Sans as Sans } from "next/font/google";
-import "./globals.css";
+
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Toaster } from "@/components/ui/sonner";
 
 const font = Sans({ subsets: ["latin", "latin-ext"] });
 
@@ -18,6 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
         <ThemeProvider>{children}</ThemeProvider>
+        <Toaster richColors position="bottom-center" />
       </body>
     </html>
   );

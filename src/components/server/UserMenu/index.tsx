@@ -7,7 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 const UserMenu = () => {
   return (
-    <nav className="flex flex-col h-full text-primary w-full">
+    <>
       <UserMenuHeader />
       <UserMenuActions />
       <DirectMessageButton />
@@ -15,7 +15,7 @@ const UserMenu = () => {
       <ScrollArea className="flex-1">
         <DirectMessages />
       </ScrollArea>
-    </nav>
+    </>
   );
 };
 export default UserMenu;

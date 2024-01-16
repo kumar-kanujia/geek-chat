@@ -3,36 +3,36 @@ import DirectMessageAction from "./DirectMessageAction";
 import ThemeToggle from "./ThemeToggle";
 import CreateServerAction from "./CreateServerAction";
 import UserSettingsAction from "./UserSettingsAction";
-import { dummyphotos } from "@/data/constants";
 import MenuItem from "./MenuItem";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { BsDiscord } from "react-icons/bs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { ServerList } from "@/loaders/server";
+import ServerIcon from "./ServerIcon";
+import { currentUser } from "@/lib/auth";
+import { defaultAvatarImagePATH } from "@/data/constants";
 
-const SideMenu = async () => {
-  const servers = await dummyphotos();
+type SideMenuProps = {
+  servers: ServerList;
+};
+
+const SideMenu = async ({ servers }: SideMenuProps) => {
+  const user = await currentUser();
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <DirectMessageAction />
       <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
       <ScrollArea className="flex-1 w-full" hideScrollbar>
-        {servers.map((server, index) => (
-          <div key={index} className="mb-4 flex justify-center">
-            <MenuItem
-              key={index}
-              href="/"
-              image={{ url: server, alt: "image" }}
-              tooltipContent="Name"
-            />
-          </div>
+        {servers.map((server) => (
+          <ServerIcon server={server} key={server.id} />
         ))}
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <ThemeToggle />
         <CreateServerAction />
-        <UserSettingsAction />
+        <UserSettingsAction userImage={user?.image || defaultAvatarImagePATH} />
       </div>
     </div>
   );
@@ -59,7 +59,7 @@ const SideMenuSkeleton = () => {
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <ThemeToggle />
         <CreateServerAction />
-        <UserSettingsAction />
+        <UserSettingsAction userImage={defaultAvatarImagePATH} />
       </div>
     </div>
   );
