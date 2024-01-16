@@ -1,4 +1,6 @@
+import UserMenu from "@/components/server/UserMenu";
+
 const DefaultSideBar = () => {
-  return null;
+  return <UserMenu />;
 };
 export default DefaultSideBar;

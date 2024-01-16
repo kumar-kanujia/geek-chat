@@ -20,7 +20,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={font.className}>
         <ThemeProvider>{children}</ThemeProvider>
-        <Toaster richColors position="bottom-center" />
+        <Toaster position="bottom-center" />
       </body>
     </html>
   );
