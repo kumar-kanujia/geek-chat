@@ -61,7 +61,10 @@ const MenuItem = ({
             height={48}
             unoptimized
             priority
-            className={cn("absolute inset-0 transition-all", roundClasses)}
+            className={cn(
+              "absolute inset-0 transition-all h-full w-full object-fill",
+              roundClasses
+            )}
           />
         )}
         {children}
