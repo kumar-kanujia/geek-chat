@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 import { currentUser } from "@/lib/auth";
 import { createServerFormSchema } from "@/schemas/serverSchema";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
+
 export async function createServer(
   values: z.infer<typeof createServerFormSchema>
 ) {
@@ -21,6 +23,7 @@ export async function createServer(
         inviteCode: uuidv4(),
       },
     });
+    revalidatePath("/servers");
     return { success: "Server created successfully", serverId: server.id };
   } catch (error) {
     console.log(["CREATE SERVER ERROR", error]);

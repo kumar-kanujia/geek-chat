@@ -40,7 +40,7 @@ const MenuItem = ({
     <ActionTooltip label={tooltipContent} side="right" align="center">
       <Link
         className={cn(
-          "group relative block h-12 w-12 bg-foreground bg-cover transition-all hover:shadow-xl",
+          "group relative block h-12 w-12 bg-primary-foreground dark:bg-primary bg-cover transition-all hover:shadow-xl",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
           "focus-visible:ring-offset-background active:translate-y-[1px]",
           roundClasses,

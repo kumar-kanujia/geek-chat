@@ -24,10 +24,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import FormSuccess from "../FormSuccess";
 import FormError from "../FormError";
 import { z } from "zod";
 import { createServer } from "@/actions/server";
+import { toast } from "sonner";
 
 type CreateServerModalProps = {
   isIntercepted?: boolean;
@@ -37,7 +37,6 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
   const router = useRouter();
   const isMounted = useMount();
 
-  const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const form = useForm({
@@ -48,7 +47,7 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
     },
   });
 
-  const { isLoading, isSubmitting } = form.formState;
+  const { isLoading, isSubmitting, isSubmitted } = form.formState;
 
   const handleOpenChange = () => {
     if (isIntercepted) {
@@ -64,8 +63,20 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
       if (data?.error) {
         setError(data.error);
       } else {
-        setSuccess("Server created successfully");
-        router.push(`/servers/${data?.serverId}`);
+        toast.success(data?.success, {
+          action: {
+            label: "Go to server",
+            onClick: () => {
+              router.push(`/servers/${data?.serverId}`);
+            },
+          },
+        });
+        form.reset();
+        if (isIntercepted) {
+          router.back();
+        } else {
+          router.push(`/servers/${data?.serverId}`);
+        }
       }
     });
   };
@@ -75,7 +86,7 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
   }
 
   return (
-    <Dialog open onOpenChange={handleOpenChange}>
+    <Dialog defaultOpen onOpenChange={handleOpenChange}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
@@ -129,11 +140,13 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
                   </FormItem>
                 )}
               />
-              {!success && <FormError message={error} />}
-              <FormSuccess message={success} />
+              <FormError message={error} />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="default" disabled={isLoading || isSubmitting}>
+              <Button
+                variant="default"
+                disabled={isLoading || isSubmitting || isSubmitted}
+              >
                 {isSubmitting ? "Creating..." : "Create"}
               </Button>
             </DialogFooter>

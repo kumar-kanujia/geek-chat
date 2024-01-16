@@ -10,12 +10,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { ServerList } from "@/loaders/server";
 import ServerIcon from "./ServerIcon";
+import { currentUser } from "@/lib/auth";
+import { defaultAvatarImagePATH } from "@/data/constants";
 
 type SideMenuProps = {
   servers: ServerList;
 };
 
-const SideMenu = ({ servers }: SideMenuProps) => {
+const SideMenu = async ({ servers }: SideMenuProps) => {
+  const user = await currentUser();
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
       <DirectMessageAction />
@@ -29,7 +32,7 @@ const SideMenu = ({ servers }: SideMenuProps) => {
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <ThemeToggle />
         <CreateServerAction />
-        <UserSettingsAction />
+        <UserSettingsAction userImage={user?.image || defaultAvatarImagePATH} />
       </div>
     </div>
   );
@@ -56,7 +59,7 @@ const SideMenuSkeleton = () => {
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
         <ThemeToggle />
         <CreateServerAction />
-        <UserSettingsAction />
+        <UserSettingsAction userImage={defaultAvatarImagePATH} />
       </div>
     </div>
   );

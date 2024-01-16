@@ -1,26 +1,31 @@
 "use client";
 import { usePathname } from "next/navigation";
 import MenuItem from "./MenuItem";
+import { FC } from "react";
 
-interface UserSettingsAction {
+type UserSettingsActionProps = {
   className?: string;
-}
+  userImage: string;
+};
 
-const UserSettingsAction = () => {
+const UserSettingsAction: FC<UserSettingsActionProps> = ({
+  className,
+  userImage,
+}) => {
   const pathname = usePathname();
 
   const isActive = pathname === "/settings";
 
-  const url = "";
   return (
     <MenuItem
       href="/settings"
       isActive={isActive}
       image={{
-        url: url || "https://avatars.githubusercontent.com/u/56792479",
+        url: userImage,
         alt: "User Settings",
       }}
-      tooltipContent={`User Settings`}
+      tooltipContent="Profile Settings"
+      className={className}
     />
   );
 };
