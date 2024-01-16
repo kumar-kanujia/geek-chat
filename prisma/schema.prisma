@@ -16,6 +16,8 @@ model User {
   password      String?
   account       Account?
 
+  servers Server[]
+
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
 }
@@ -56,4 +58,19 @@ model PasswordResetToken {
   expires DateTime
 
   @@unique([email, token])
+}
+
+model Server {
+  id         String @id @default(uuid())
+  name       String
+  mageUrl    String @db.Text
+  inviteCode String @unique
+
+  ownerId String?
+  owner   User?   @relation(fields: [ownerId], references: [id])
+
+  createdAt DateTime @default(now())
+  udpatedAt DateTime @updatedAt
+
+  @@index([ownerId])
 }
