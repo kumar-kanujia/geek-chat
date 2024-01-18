@@ -19,8 +19,6 @@ export default auth((req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isLogoutRoute = nextUrl.pathname === "/logout";
 
-  return null;
-
   if (isApiAuthRoute) {
     return null;
   }

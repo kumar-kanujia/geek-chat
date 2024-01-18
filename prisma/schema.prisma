@@ -16,7 +16,8 @@ model User {
   password      String?
   account       Account?
 
-  servers Server[]
+  servers        Server[]
+  memberProfiles MemberProfile[]
 
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
@@ -69,8 +70,33 @@ model Server {
   ownerId String?
   owner   User?   @relation(fields: [ownerId], references: [id])
 
+  members MemberProfile[]
+
   createdAt DateTime @default(now())
   udpatedAt DateTime @updatedAt
 
   @@index([ownerId])
+}
+
+enum MemberRole {
+  ADMIN
+  MODERATOR
+  GUEST
+}
+
+model MemberProfile {
+  id   String     @id @default(uuid())
+  role MemberRole @default(GUEST)
+
+  userId String
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  serverId String
+  Server   Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, serverId])
+  @@index([userId, serverId])
 }

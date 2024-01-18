@@ -17,6 +17,8 @@ export async function getServerList() {
   }
 }
 
+export type ServerList = Awaited<ReturnType<typeof getServerList>>;
+
 export async function getServer(serverId: string) {
   try {
     const user = await currentUser();
@@ -33,4 +35,4 @@ export async function getServer(serverId: string) {
   }
 }
 
-export type ServerList = Awaited<ReturnType<typeof getServerList>>;
+export type UserServer = NonNullable<Awaited<ReturnType<typeof getServer>>>;

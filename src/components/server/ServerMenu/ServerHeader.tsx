@@ -6,21 +6,41 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import {
+  FaChevronDown,
+  FaChevronUp,
+  FaCog,
+  FaPlusCircle,
+  FaPowerOff,
+  FaTrash,
+  FaUserPlus,
+  FaUsers,
+} from "react-icons/fa";
+import { MemberRole } from "@prisma/client";
+import { FC, useState } from "react";
+import Link from "next/link";
 
-const SampleProps = {
-  name: "Server Name",
+type ServerHeaderProps = {
+  serverId: string;
+  serverName: string;
+  userRole: (typeof MemberRole)[keyof typeof MemberRole];
 };
 
-const ServerHeader = () => {
-  const { name } = SampleProps;
+const ServerHeader: FC<ServerHeaderProps> = ({
+  serverName,
+  userRole,
+  serverId,
+}) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const isAdmin = userRole === MemberRole.ADMIN;
+  const isModerator = isAdmin || userRole === MemberRole.MODERATOR;
+
   return (
     <DropdownMenu onOpenChange={() => setIsDropdownOpen((prev) => !prev)}>
       <DropdownMenuTrigger className="focus:outline-none" asChild>
-        <button className="text-md flex h-12 w-full items-center border-b-2 border-neutral-200 px-3 font-semibold transition hover:bg-zinc-700/10 dark:border-neutral-800 dark:hover:bg-zinc-700/50">
-          {name}
+        <button className="text-md flex h-12 w-full items-center truncate border-b-2 border-neutral-200 px-3 font-semibold text-primary-foreground transition hover:bg-zinc-700/10 dark:border-neutral-800 dark:hover:bg-zinc-700/50">
+          {serverName}
           {isDropdownOpen ? (
             <FaChevronUp className="ml-auto h-5 w-5" />
           ) : (
@@ -29,61 +49,48 @@ const ServerHeader = () => {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56 space-y-[2px] text-xs font-medium text-black dark:text-neutral-400">
-        {/* {isModerator && (
+        {isModerator && (
           <DropdownMenuItem
-            onClick={() => openModal("invite", { server })}
-            className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
+            className="cursor-pointer px-3 py-2 text-sm text-indigo-600 dark:text-indigo-400"
+            asChild
           >
-            Invite People
-            <UserPlus className="h-4 w-4 ml-auto" />
+            <Link href={`/servers/${serverId}/invite`}>
+              Invite People
+              <FaUserPlus className="ml-auto h-4 w-4" />
+            </Link>
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem
-            onClick={() => openModal("editServer", { server })}
-            className="px-3 py-2 text-sm cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm">
             Server Settings
-            <Settings className="h-4 w-4 ml-auto" />
+            <FaCog className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem
-            onClick={() => openModal("members", { server })}
-            className="px-3 py-2 text-sm cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm">
             Manage Members
-            <Users className="h-4 w-4 ml-auto" />
+            <FaUsers className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
         {isModerator && (
-          <DropdownMenuItem
-            onClick={() => openModal("createChannel", { server })}
-            className="px-3 py-2 text-sm cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm">
             Create Channel
-            <PlusCircle className="h-4 w-4 ml-auto" />
+            <FaPlusCircle className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
-          <DropdownMenuItem
-            onClick={() => openModal("deleteServer", { server })}
-            className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm text-rose-500">
             Delete Server
-            <Trash className="h-4 w-4 ml-auto" />
+            <FaTrash className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem
-            onClick={() => openModal("leaveServer", { server })}
-            className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
-          >
+          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm text-rose-500">
             Leave Server
-            <LogOut className="h-4 w-4 ml-auto" />
+            <FaPowerOff className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
-        )} */}
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
