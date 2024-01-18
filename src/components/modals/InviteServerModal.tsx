@@ -9,20 +9,32 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useMount from "@/hooks/use-mount";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { FC } from "react";
+import { UserServer } from "@/loaders/server";
+import { usePathname, useRouter } from "next/navigation";
+import { FC, useState } from "react";
+import { BsCheck, BsCopy } from "react-icons/bs";
+import { MdRefresh } from "react-icons/md";
 
 type InviteServerModalProps = {
   isIntercepted?: boolean;
+  server: UserServer;
 };
 
-const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
-  const { serverId } = useParams();
+const InviteServerModal: FC<InviteServerModalProps> = ({
+  isIntercepted,
+  server,
+}) => {
+  const { id: serverId, inviteCode } = server;
   const pathname = usePathname();
   const router = useRouter();
   const isMounted = useMount();
 
+  const [copied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const isModalOpen = pathname === `/servers/${serverId}/invite`;
+
+  const inviteUrl = `${origin}/invite/${inviteCode}`;
 
   const onModalClose = (open: boolean) => {
     if (isIntercepted) {
@@ -30,6 +42,15 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
     } else {
       return !open && router.push(`/servers/${serverId}`);
     }
+  };
+
+  const onCopy = () => {
+    navigator.clipboard.writeText(inviteUrl);
+    setCopied(true);
+
+    setTimeout(() => {
+      setCopied(false);
+    }, 1000);
   };
 
   if (!isMounted) return null;
@@ -48,27 +69,27 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
           </Label>
           <div className="mt-2 flex items-center gap-x-2">
             <Input
-              // disabled={isLoading}
+              disabled={isLoading}
               className="border-0 bg-zinc-300/50 text-black focus-visible:ring-0 focus-visible:ring-offset-0"
-              // value={inviteUrl}
+              value={inviteUrl}
             />
-            {/* <Button disabled={isLoading} onClick={onCopy} size="icon">
+            <Button disabled={isLoading} onClick={onCopy} size="icon">
               {copied ? (
-                <Check className="h-4 w-4" />
+                <BsCheck className="h-4 w-4" />
               ) : (
-                <Copy className="h-4 w-4" />
+                <BsCopy className="h-4 w-4" />
               )}
-            </Button> */}
+            </Button>
           </div>
           <Button
             // onClick={onNew}
-            // disabled={isLoading}
+            disabled={isLoading}
             variant="link"
             size="sm"
             className="mt-4 text-xs text-zinc-500"
           >
             Generate a new link
-            {/* <RefreshCw className="ml-2 h-4 w-4" /> */}
+            <MdRefresh className="ml-2 h-4 w-4" />
           </Button>
         </div>
       </DialogContent>

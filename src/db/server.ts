@@ -16,6 +16,48 @@ export async function getServerListByUserId(userId: string) {
   return serverList;
 }
 
+export async function getServerByMemeberIdAndServerIdWithMember(
+  userId: string,
+  serverId: string,
+) {
+  const server = await db.server.findFirst({
+    where: {
+      id: serverId,
+      members: {
+        some: {
+          userId: userId,
+        },
+      },
+    },
+    include: {
+      members: {
+        where: {
+          userId,
+        },
+        take: 1,
+      },
+    },
+  });
+  return server;
+}
+
+export async function getServerByMemeberIdAndServerId(
+  userId: string,
+  serverId: string,
+) {
+  const server = await db.server.findFirst({
+    where: {
+      id: serverId,
+      members: {
+        some: {
+          userId: userId,
+        },
+      },
+    },
+  });
+  return server;
+}
+
 export async function getServerById(serverId: string) {
   const server = await db.server.findUnique({
     where: {
