@@ -47,7 +47,7 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
     },
   });
 
-  const { isLoading, isSubmitting, isSubmitted } = form.formState;
+  const { isLoading, isSubmitting } = form.formState;
 
   const handleOpenChange = () => {
     if (isIntercepted) {
@@ -59,23 +59,24 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
 
   const onSubmit = async (values: z.infer<typeof createServerFormSchema>) => {
     setError("");
-    createServer(values).then((data) => {
+    createServer(values, isIntercepted).then((data) => {
       if (data?.error) {
         setError(data.error);
       } else {
+        form.reset();
         toast.success(data?.success, {
           action: {
-            label: "Go to server",
+            label: "Go there!",
             onClick: () => {
               router.push(`/servers/${data?.serverId}`);
             },
           },
+          duration: 3000,
         });
-        form.reset();
-        if (isIntercepted) {
-          router.back();
-        } else {
+        if (!isIntercepted) {
           router.push(`/servers/${data?.serverId}`);
+        } else {
+          router.back();
         }
       }
     });
@@ -115,7 +116,6 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
                           }}
                         />
                       </FormControl>
-                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -143,10 +143,7 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
               <FormError message={error} />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button
-                variant="default"
-                disabled={isLoading || isSubmitting || isSubmitted}
-              >
+              <Button variant="default" disabled={isLoading || isSubmitting}>
                 {isSubmitting ? "Creating..." : "Create"}
               </Button>
             </DialogFooter>
