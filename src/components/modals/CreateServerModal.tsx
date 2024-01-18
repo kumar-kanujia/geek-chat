@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import useMount from "@/hooks/use-mount";
 import FileUpload from "@/components/FileUpload";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +36,9 @@ type CreateServerModalProps = {
 const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
   const router = useRouter();
   const isMounted = useMount();
+  const pathname = usePathname();
+
+  const isModalOpen = pathname === "/servers/create";
 
   const [error, setError] = useState("");
 
@@ -49,35 +52,23 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
 
   const { isLoading, isSubmitting } = form.formState;
 
-  const handleOpenChange = () => {
+  const handleOpenChange = (open: boolean) => {
     if (isIntercepted) {
-      router.back();
+      return !open && router.back();
     } else {
-      router.push("/servers/me");
+      return !open && router.push("/servers/me");
     }
   };
 
   const onSubmit = async (values: z.infer<typeof createServerFormSchema>) => {
     setError("");
-    createServer(values, isIntercepted).then((data) => {
+    createServer(values).then((data) => {
       if (data?.error) {
         setError(data.error);
       } else {
         form.reset();
-        toast.success(data?.success, {
-          action: {
-            label: "Go there!",
-            onClick: () => {
-              router.push(`/servers/${data?.serverId}`);
-            },
-          },
-          duration: 3000,
-        });
-        if (!isIntercepted) {
-          router.push(`/servers/${data?.serverId}`);
-        } else {
-          router.back();
-        }
+        toast.success(data?.success);
+        router.push(`/servers/${data?.serverId}`);
       }
     });
   };
@@ -87,8 +78,8 @@ const CreateServerModal: FC<CreateServerModalProps> = ({ isIntercepted }) => {
   }
 
   return (
-    <Dialog defaultOpen onOpenChange={handleOpenChange}>
-      <DialogContent className="overflow-hidden bg-white p-0 text-black">
+    <Dialog open={isModalOpen} onOpenChange={handleOpenChange}>
+      <DialogContent className="overflow-hidden bg-white  p-0 text-black">
         <DialogHeader className="px-6 pt-8">
           <DialogTitle className="text-center text-2xl font-bold">
             Create a new server 👨🏻‍🔧

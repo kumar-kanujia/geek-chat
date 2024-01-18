@@ -8,7 +8,6 @@ import { revalidatePath } from "next/cache";
 
 export async function createServer(
   values: z.infer<typeof createServerFormSchema>,
-  isIntercetedRoute?: boolean,
 ) {
   const user = await currentUser();
 
@@ -24,9 +23,7 @@ export async function createServer(
         inviteCode: uuidv4(),
       },
     });
-    if (!isIntercetedRoute) {
-      revalidatePath("/server");
-    }
+    revalidatePath(`/servers`, "layout");
     return { success: "Server created successfully", serverId: server.id };
   } catch (error) {
     console.log(["CREATE SERVER ERROR", error]);
