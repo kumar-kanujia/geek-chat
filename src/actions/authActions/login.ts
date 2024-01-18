@@ -12,7 +12,7 @@ import { generateResetPasswordToken } from "@/db/passwordResetToken";
 
 export default async function login(
   values: z.infer<typeof LoginSchema>,
-  callbackUrl?: string | null
+  callbackUrl?: string | null,
 ) {
   const validatedFields = LoginSchema.safeParse(values);
 
@@ -30,12 +30,12 @@ export default async function login(
 
   if (!existingUser.emailVerified) {
     const verificationToken = await generateVerificationToken(
-      existingUser.email
+      existingUser.email,
     );
 
     await sendVerificationEmail(
       verificationToken.email,
-      verificationToken.token
+      verificationToken.token,
     );
     return { error: "Please verify your email." };
   }
@@ -78,7 +78,7 @@ export const resetPassword = async (values: z.infer<typeof ResetSchema>) => {
 
   await sendResetPasswordEmail(
     resetPasswordToken.email,
-    resetPasswordToken.token
+    resetPasswordToken.token,
   );
 
   return { success: "Reset Email Sent!" };

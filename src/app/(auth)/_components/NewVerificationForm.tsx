@@ -34,7 +34,7 @@ const NewVerificationForm = () => {
   }, [onSubmit]);
 
   return (
-    <div className="flex items-center w-full justify-center">
+    <div className="flex w-full items-center justify-center">
       {!success && !error && <BeatLoader />}
       {!success && <FormError message={error} />}
       <FormSuccess message={success} />

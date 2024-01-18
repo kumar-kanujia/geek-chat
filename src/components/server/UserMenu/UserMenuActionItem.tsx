@@ -19,11 +19,11 @@ const UserMenuActionItem: FC<UserMenuActionItemProps> = ({
   const pathname = usePathname();
   const isActive = pathname === href;
   return (
-    <li className="list-none mb-2">
+    <li className="mb-2 list-none">
       <Button
         className={cn(
-          "w-full justify-start py-6 text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 mb-1",
-          isActive && "bg-zinc-700/20 dark:bg-zinc-700"
+          "mb-1 w-full justify-start py-6 text-zinc-500 transition hover:bg-zinc-700/10 hover:text-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-700/50 dark:hover:text-zinc-300",
+          isActive && "bg-zinc-700/20 dark:bg-zinc-700",
         )}
         variant="ghost"
         asChild

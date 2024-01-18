@@ -17,7 +17,7 @@ const DirectMessageAction = () => {
       tooltipContent="Direct Messages"
       className={cn(
         "mx-auto mb-2 flex items-center justify-center",
-        isActive ? "bg-primary text-white" : "text-gray-300"
+        isActive ? "bg-primary text-white" : "text-gray-300",
       )}
     >
       <BsDiscord fontSize={26} />

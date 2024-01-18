@@ -9,7 +9,7 @@ const SideTip = ({ isActive }: { isActive?: boolean }) => (
     className={cn(
       "absolute -left-4 w-[9px] rounded-lg bg-black dark:bg-white ",
       "transition-all group-hover:scale-100",
-      isActive ? "bottom-1 top-1" : "top-1/2 -mt-3 h-6 scale-0"
+      isActive ? "bottom-1 top-1" : "top-1/2 -mt-3 h-6 scale-0",
     )}
   />
 );
@@ -40,11 +40,11 @@ const MenuItem = ({
     <ActionTooltip label={tooltipContent} side="right" align="center">
       <Link
         className={cn(
-          "group relative block h-12 w-12 bg-primary-foreground dark:bg-primary bg-cover transition-all hover:shadow-xl",
+          "group relative block h-12 w-12 bg-primary-foreground bg-cover transition-all hover:shadow-xl dark:bg-primary",
           "focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
           "focus-visible:ring-offset-background active:translate-y-[1px]",
           roundClasses,
-          className
+          className,
         )}
         href={href}
       >
@@ -62,8 +62,8 @@ const MenuItem = ({
             unoptimized
             priority
             className={cn(
-              "absolute inset-0 transition-all h-full w-full object-fill",
-              roundClasses
+              "absolute inset-0 h-full w-full object-fill transition-all",
+              roundClasses,
             )}
           />
         )}
@@ -89,7 +89,7 @@ const MenuItemSkeleton = ({
       "relative block h-12 w-12 bg-foreground bg-cover transition-all",
       "group hover:shadow-xl focus:outline-none",
       isActive ? "rounded-[15px]" : "rounded-[100%]",
-      className
+      className,
     )}
     {...props}
   />

@@ -16,8 +16,8 @@ const AuthErrorPage = () => {
         <CardTitle>Oops! Something went wrong!</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="w-full flex justify-center items-center">
-          <ExclamationTriangleIcon className="text-destructive size-20" />
+        <div className="flex w-full items-center justify-center">
+          <ExclamationTriangleIcon className="size-20 text-destructive" />
         </div>
       </CardContent>
       <CardFooter>

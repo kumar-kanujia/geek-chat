@@ -17,7 +17,7 @@ const LogoutPage = () => {
         <CardTitle>Are you sure you want to logout?</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex items-center w-full gap-x-2">
+        <div className="flex w-full items-center gap-x-2">
           <Button variant="secondary" size="lg" className="w-full" asChild>
             <Link href="/">Cancel</Link>
           </Button>

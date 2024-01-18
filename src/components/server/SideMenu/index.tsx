@@ -20,16 +20,16 @@ type SideMenuProps = {
 const SideMenu = async ({ servers }: SideMenuProps) => {
   const user = await currentUser();
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
+    <div className="flex h-full w-full flex-col items-center space-y-4 bg-[#E3E5E8] py-3 text-primary dark:bg-[#1E1F22]">
       <DirectMessageAction />
-      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
-      <ScrollArea className="flex-1 w-full" hideScrollbar>
+      <Separator className="mx-auto h-[2px] w-10 rounded-md bg-zinc-300 dark:bg-zinc-700" />
+      <ScrollArea className="w-full flex-1" hideScrollbar>
         {servers.map((server) => (
           <ServerIcon server={server} key={server.id} />
         ))}
       </ScrollArea>
-      <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
-        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
+      <div className="mt-auto flex flex-col items-center gap-y-4 pb-3">
+        <Separator className="mx-auto h-[2px] w-10 rounded-md bg-zinc-300 dark:bg-zinc-700" />
         <ThemeToggle />
         <CreateServerAction />
         <UserSettingsAction userImage={user?.image || defaultAvatarImagePATH} />
@@ -40,23 +40,23 @@ const SideMenu = async ({ servers }: SideMenuProps) => {
 
 const SideMenuSkeleton = () => {
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] bg-[#E3E5E8] py-3">
+    <div className="flex h-full w-full flex-col items-center space-y-4 bg-[#E3E5E8] py-3 text-primary dark:bg-[#1E1F22]">
       <MenuItem.Skeleton
         isActive
         className="mx-auto mb-2 flex items-center justify-center bg-primary text-white"
       >
         <BsDiscord fontSize={26} />
       </MenuItem.Skeleton>
-      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
-      <ScrollArea className="flex-1 w-full" hideScrollbar>
+      <Separator className="mx-auto h-[2px] w-10 rounded-md bg-zinc-300 dark:bg-zinc-700" />
+      <ScrollArea className="w-full flex-1" hideScrollbar>
         {[...Array(11)].map((_, index) => (
           <div key={index} className="mb-4 flex justify-center">
             <Skeleton className={cn("h-12 w-12")} />
           </div>
         ))}
       </ScrollArea>
-      <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
-        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto" />
+      <div className="mt-auto flex flex-col items-center gap-y-4 pb-3">
+        <Separator className="mx-auto h-[2px] w-10 rounded-md bg-zinc-300 dark:bg-zinc-700" />
         <ThemeToggle />
         <CreateServerAction />
         <UserSettingsAction userImage={defaultAvatarImagePATH} />

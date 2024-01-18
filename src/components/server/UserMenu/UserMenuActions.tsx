@@ -16,10 +16,10 @@ const ACTION_ITEMS = [
 
 const UserMenuActions = () => {
   return (
-    <ul className="px-2 mt-2 w-full">
+    <ul className="mt-2 w-full px-2">
       {ACTION_ITEMS.map(({ Icon, href, label }) => (
         <UserMenuActionItem key={label} actionLabel={label} href={href}>
-          <Icon className="w-8 h-8" />
+          <Icon className="h-8 w-8" />
         </UserMenuActionItem>
       ))}
     </ul>

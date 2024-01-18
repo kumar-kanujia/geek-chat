@@ -19,7 +19,7 @@ const UMTabMenuItem: FC<UMTabMenuItemProps> = ({ label, href, className }) => {
         active
           ? "cursor-default bg-gray-800 text-gray-100"
           : "text-gray-300 hover:text-gray-200",
-        className
+        className,
       )}
       asChild
     >

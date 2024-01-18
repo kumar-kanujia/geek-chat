@@ -11,7 +11,7 @@ const UserMenu = () => {
       <UserMenuHeader />
       <UserMenuActions />
       <DirectMessageButton />
-      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-56 mx-auto mb-2" />
+      <Separator className="mx-auto mb-2 h-[2px] w-56 rounded-md bg-zinc-300 dark:bg-zinc-700" />
       <ScrollArea className="flex-1">
         <DirectMessages />
       </ScrollArea>

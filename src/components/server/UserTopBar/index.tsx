@@ -34,11 +34,11 @@ const UserTopBar = () => {
         <HamburgerMenuIcon />
       </div>
       <div className="flex items-center gap-4">
-        <div className="hidden md:flex flex-none items-center gap-2 text-sm font-semibold cursor-default ">
+        <div className="hidden flex-none cursor-default items-center gap-2 text-sm font-semibold md:flex ">
           <BsPersonFill className="text-gray-500" fontSize={22} />
           Friends
         </div>
-        <div className="hidden md:block bg-white/10 h-4 w-0.5" />
+        <div className="hidden h-4 w-0.5 bg-white/10 md:block" />
         {MENU_ITEMS.map((item) => (
           <UMTabMenuItem key={item.value} {...item} />
         ))}
@@ -49,11 +49,11 @@ const UserTopBar = () => {
         />
       </div>
       <div className="ms-auto flex items-center gap-4">
-        <div className="hidden md:flex flex-none items-center gap-2 text-sm font-semibold cursor-default ms-4">
+        <div className="ms-4 hidden flex-none cursor-default items-center gap-2 text-sm font-semibold md:flex">
           <CreateDMButton />
         </div>
-        <div className=" bg-white/10 h-4 w-0.5" />
-        <div className="flex flex-none items-center gap-2 text-sm font-semibold cursor-default">
+        <div className=" h-4 w-0.5 bg-white/10" />
+        <div className="flex flex-none cursor-default items-center gap-2 text-sm font-semibold">
           <GithubButton />
         </div>
       </div>

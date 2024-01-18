@@ -19,16 +19,16 @@ const ServerHeader = () => {
   return (
     <DropdownMenu onOpenChange={() => setIsDropdownOpen((prev) => !prev)}>
       <DropdownMenuTrigger className="focus:outline-none" asChild>
-        <button className="w-full text-md font-semibold px-3 flex items-center h-12 border-neutral-200 dark:border-neutral-800 border-b-2 hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition">
+        <button className="text-md flex h-12 w-full items-center border-b-2 border-neutral-200 px-3 font-semibold transition hover:bg-zinc-700/10 dark:border-neutral-800 dark:hover:bg-zinc-700/50">
           {name}
           {isDropdownOpen ? (
-            <FaChevronUp className="h-5 w-5 ml-auto" />
+            <FaChevronUp className="ml-auto h-5 w-5" />
           ) : (
-            <FaChevronDown className="h-5 w-5 ml-auto" />
+            <FaChevronDown className="ml-auto h-5 w-5" />
           )}
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
+      <DropdownMenuContent className="w-56 space-y-[2px] text-xs font-medium text-black dark:text-neutral-400">
         {/* {isModerator && (
           <DropdownMenuItem
             onClick={() => openModal("invite", { server })}

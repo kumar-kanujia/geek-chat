@@ -30,7 +30,7 @@ const ActionTooltip: FC<ActionTooltipProps> = ({
           sideOffset={20}
           className="text-sm"
         >
-          <div className="font-semibold text-sm capitalize">
+          <div className="text-sm font-semibold capitalize">
             {label.toLowerCase()}
           </div>
         </TooltipContent>

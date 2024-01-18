@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 
 export async function createServer(
   values: z.infer<typeof createServerFormSchema>,
-  isIntercetedRoute?: boolean
+  isIntercetedRoute?: boolean,
 ) {
   const user = await currentUser();
 

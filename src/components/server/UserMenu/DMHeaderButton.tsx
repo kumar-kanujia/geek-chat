@@ -7,7 +7,7 @@ const DMHeaderButton = () => {
     <div
       className={cn(
         "flex cursor-default items-center justify-between px-4 text-xs font-semibold",
-        "align-middle text-gray-400 hover:text-gray-200 mb-2"
+        "mb-2 align-middle text-gray-400 hover:text-gray-200",
       )}
     >
       Direct Messages

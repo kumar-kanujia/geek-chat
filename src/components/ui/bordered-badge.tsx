@@ -17,7 +17,7 @@ export default function BorderedBadge({
         "rounded-full px-[4px] py-[0px] text-[11px] font-bold",
         "border-4 border-background bg-red-500 text-white",
         count ? "scale-100 opacity-100" : "scale-0 opacity-0",
-        className
+        className,
       )}
       {...props}
     >

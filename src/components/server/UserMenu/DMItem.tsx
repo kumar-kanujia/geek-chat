@@ -17,13 +17,13 @@ const DMItem: FC<DMItemProps> = ({ userName, src, href }) => {
   const pathname = usePathname();
   const isActive = pathname === href;
   return (
-    <li className="list-none group">
+    <li className="group list-none">
       <Button
         className={cn(
-          "text-zinc-500 hover:text-zinc-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 mb-2",
+          "mb-2 text-zinc-500 transition hover:bg-zinc-700/10 hover:text-zinc-600 dark:text-zinc-400 dark:hover:bg-zinc-700/50 dark:hover:text-zinc-300",
 
-          "w-full px-2 h-10 md:h-12 flex items-center rounded-md justify-start",
-          isActive && "bg-zinc-700/20 dark:bg-zinc-700"
+          "flex h-10 w-full items-center justify-start rounded-md px-2 md:h-12",
+          isActive && "bg-zinc-700/20 dark:bg-zinc-700",
         )}
         variant="ghost"
         asChild
