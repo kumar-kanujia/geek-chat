@@ -3,6 +3,7 @@ import { BsPersonFill } from "react-icons/bs";
 import UMTabMenuItem from "./UMTabMenuItem";
 import CreateDMButton from "./CreateDMButton";
 import GithubButton from "./GithubButton";
+import { cn } from "@/lib/utils";
 
 const MENU_ITEMS = [
   {
@@ -29,7 +30,13 @@ const MENU_ITEMS = [
 
 const UserTopBar = () => {
   return (
-    <>
+    <div
+      className={cn(
+        "text-md flex h-12 items-center justify-start gap-3 border-b-2 border-neutral-200 px-3 font-semibold dark:border-neutral-800 md:justify-between",
+        "bg-white dark:bg-[#313338]",
+        "hidden-scrollbar overflow-scroll",
+      )}
+    >
       <div className="md:hidden">
         <HamburgerMenuIcon />
       </div>
@@ -57,7 +64,7 @@ const UserTopBar = () => {
           <GithubButton />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default UserTopBar;

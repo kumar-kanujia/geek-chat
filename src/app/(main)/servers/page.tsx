@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-const ServerPage = () => {
+const ServersPage = () => {
   redirect("/servers/me");
 };
-export default ServerPage;
+export default ServersPage;

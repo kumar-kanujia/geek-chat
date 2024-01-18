@@ -1,11 +1,6 @@
 import { cn } from "@/lib/utils";
-import { FC, ReactNode } from "react";
 
-type TopBarLayoutProps = {
-  children: ReactNode;
-};
-
-const TopBarLayout: FC<TopBarLayoutProps> = ({ children }) => {
+const ServerTopBar = () => {
   return (
     <div
       className={cn(
@@ -14,8 +9,8 @@ const TopBarLayout: FC<TopBarLayoutProps> = ({ children }) => {
         "hidden-scrollbar overflow-scroll",
       )}
     >
-      {children}
+      ServerTopBar
     </div>
   );
 };
-export default TopBarLayout;
+export default ServerTopBar;
