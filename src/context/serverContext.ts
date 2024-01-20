@@ -1,15 +1,14 @@
-import { UserServer } from "@/loaders/server";
 import { Server } from "@prisma/client";
 import { create } from "zustand";
 
 type serverStore = {
-  server: UserServer | null;
-  setServer: (server: UserServer) => void;
+  server: Server | null;
+  setServer: (server: Server) => void;
 };
 
 const serverContext = create<serverStore>((set) => ({
   server: null,
-  setServer: (server: UserServer) => set({ server }),
+  setServer: (server: Server) => set({ server }),
 }));
 
 export default serverContext;

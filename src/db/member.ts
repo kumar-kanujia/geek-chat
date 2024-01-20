@@ -11,3 +11,16 @@ export async function createMemberProfile(userId: string, serverId: string) {
   });
   return memberProfile;
 }
+
+export async function getMemberProfile(userId: string, serverId: string) {
+  const memberProfile = await db.memberProfile.findFirst({
+    where: {
+      userId,
+      serverId,
+    },
+    include: {
+      Server: true,
+    },
+  });
+  return memberProfile;
+}

@@ -1,21 +1,17 @@
-import { MemberRole } from "@prisma/client";
+import { MemberRole, Server } from "@prisma/client";
 import ServerHeader from "./ServerHeader";
-import { UserServer } from "@/loaders/server";
 import { FC } from "react";
 
 type ServerMenuProps = {
-  server: UserServer;
+  server: Server;
+  userRole: MemberRole;
 };
 
-const ServerMenu: FC<ServerMenuProps> = ({ server }) => {
+const ServerMenu: FC<ServerMenuProps> = ({ server, userRole }) => {
   const { id, name } = server;
   return (
     <>
-      <ServerHeader
-        serverId={id}
-        serverName={name}
-        userRole={MemberRole.ADMIN}
-      />
+      <ServerHeader serverId={id} serverName={name} userRole={userRole} />
     </>
   );
 };

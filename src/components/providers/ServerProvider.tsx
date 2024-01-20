@@ -1,12 +1,12 @@
 "use client";
 
 import serverContext from "@/context/serverContext";
-import { UserServer } from "@/loaders/server";
+import { Server } from "@prisma/client";
 import { FC, ReactNode, useEffect } from "react";
 
 type ServerProviderProps = {
   children: ReactNode;
-  server: UserServer;
+  server: Server;
 };
 
 const ServerProvider: FC<ServerProviderProps> = ({ children, server }) => {
