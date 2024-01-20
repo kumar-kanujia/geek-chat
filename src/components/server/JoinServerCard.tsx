@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -7,31 +8,76 @@ import {
 } from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { JoinServer } from "@/loaders/server";
+import { FC, useState } from "react";
+import Link from "next/link";
+import { joinServer } from "@/actions/server";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
-const JoinServerCard = ({ inviteCode }: { inviteCode: string }) => {
-  const co = {
-    serverName: "xyx",
-    src: "https://utfs.io/f/fff3a17f-07cb-40c0-8a93-7364b75b2044-biy9p6.png",
+type JoinServerCardProps = {
+  server: JoinServer;
+};
+
+const JoinServerCard: FC<JoinServerCardProps> = ({ server }) => {
+  const [hasJoined, setHasJoined] = useState(false);
+
+  const onJoinClick = () => {
+    joinServer(server.serverId).then((isJoined) => {
+      if (isJoined) {
+        toast.loading(`You have Joined ${server.serverName} server!!`);
+        setHasJoined(isJoined);
+      } else {
+        toast.error("Something went wrong!");
+      }
+    });
   };
-  const { serverName, src } = co;
+
   return (
     <Card className="w-[400px]">
       <CardHeader className="text-center">
         <CardTitle className="flex justify-center">
           <div className="relative h-20 w-20">
-            <Image fill src={src} alt="Upload" className="rounded-full" />
+            <Image
+              fill
+              src={server.imageUrl}
+              alt="Upload"
+              className="rounded-full"
+            />
           </div>
         </CardTitle>
-        <CardDescription>Invitation to join {serverName}</CardDescription>
+        {!hasJoined && server.isMember ? (
+          <CardDescription>
+            You are alredy a member of{" "}
+            <span className="text-primary">{server.serverName}</span> Server
+          </CardDescription>
+        ) : (
+          <CardDescription>
+            Invitation to join{" "}
+            <span className="text-primary">{server.serverName}</span> Server
+          </CardDescription>
+        )}
       </CardHeader>
       <CardContent>
         <div className="flex w-full items-center gap-x-2">
-          <Button size="lg" className="w-full" variant="secondary">
-            Go to DM
+          <Button size="lg" className="w-full" variant="secondary" asChild>
+            <Link href={"/servers/me"}>Go to DM</Link>
           </Button>
-          <Button size="lg" className="w-full" variant="default">
-            Accept
-          </Button>
+          {hasJoined || server.isMember ? (
+            <Button size="lg" className="w-full" variant="default">
+              <Link href={`/servers/${server.serverId}`}>Go to Server</Link>
+            </Button>
+          ) : (
+            <Button
+              size="lg"
+              className="w-full"
+              variant="default"
+              onClick={onJoinClick}
+              disabled={hasJoined}
+            >
+              Accept
+            </Button>
+          )}
         </div>
       </CardContent>
     </Card>

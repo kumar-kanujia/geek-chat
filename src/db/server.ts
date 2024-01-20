@@ -1,20 +1,41 @@
+import { MemberRole } from "@prisma/client";
 import { db } from ".";
 import { v4 as uuidv4 } from "uuid";
 
-export async function getServerListByUserId(userId: string) {
+export async function createServerDB(
+  serverName: string,
+  imageUrl: string,
+  userId: string,
+) {
+  const server = await db.server.create({
+    data: {
+      name: serverName,
+      ownerId: userId,
+      imageUrl: imageUrl,
+      inviteCode: uuidv4(),
+      members: {
+        create: {
+          userId: userId,
+          role: MemberRole.ADMIN,
+        },
+      },
+    },
+  });
+  return server;
+}
+
+export async function getServerListForUser(userId: string) {
   const serverList = await db.server.findMany({
     where: {
-      ownerId: userId,
-    },
-    select: {
-      id: true,
-      name: true,
-      imageUrl: true,
+      members: {
+        some: {
+          userId,
+        },
+      },
     },
   });
   return serverList;
 }
-
 export async function getServerByMemberId(serverId: string, memberId: string) {
   const server = await db.server.findFirst({
     where: {
@@ -45,8 +66,7 @@ export async function getServerDetailsByInviteCode(
     where: {
       inviteCode,
     },
-    select: {
-      name: true,
+    include: {
       members: {
         where: {
           userId,

@@ -1,4 +1,5 @@
 import JoinServerCard from "@/components/server/JoinServerCard";
+import { getServerDetailsForInviteCode } from "@/loaders/server";
 import { FC } from "react";
 
 type JoinServerPageProps = {
@@ -7,11 +8,13 @@ type JoinServerPageProps = {
   };
 };
 
-const JoinServerPage: FC<JoinServerPageProps> = ({ params }) => {
+const JoinServerPage: FC<JoinServerPageProps> = async ({ params }) => {
   const { inviteId } = params;
+  const serverDetails = await getServerDetailsForInviteCode(inviteId);
+
   return (
     <div className="flex h-full items-center justify-center">
-      <JoinServerCard inviteCode={inviteId} />
+      <JoinServerCard server={serverDetails} />
     </div>
   );
 };
