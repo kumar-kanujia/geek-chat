@@ -34,7 +34,7 @@ const InviteServerModal: FC<InviteServerModalProps> = ({
 
   const isModalOpen = pathname === `/servers/${serverId}/invite`;
 
-  const inviteUrl = `${origin}/invite/${inviteCode}`;
+  const inviteUrl = `${origin}/join/${inviteCode}`;
 
   const onModalClose = (open: boolean) => {
     if (isIntercepted) {

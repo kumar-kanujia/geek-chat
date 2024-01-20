@@ -2,14 +2,19 @@
 import { DEFAULT_LOGIN_REDIRECT } from "@/auth/routes";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 
 type LoginProvider = "google" | "github";
 
 const SocialFooter = () => {
+  const searchParams = useSearchParams();
+
+  const callBackUrl = searchParams.get("callbackUrl");
+
   const onClick = (provider: LoginProvider) => {
-    signIn(provider, { callbackUrl: DEFAULT_LOGIN_REDIRECT });
+    signIn(provider, { callbackUrl: callBackUrl || DEFAULT_LOGIN_REDIRECT });
   };
 
   return (

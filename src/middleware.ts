@@ -6,6 +6,7 @@ import {
   apiAuthPrefix,
   authRoutes,
   publicRoutes,
+  uploadthingApiPrefix,
 } from "@/auth/routes";
 
 const { auth } = NextAuth(authConfig);
@@ -14,12 +15,14 @@ export default auth((req) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
+  const isUploadthingApiRoute =
+    nextUrl.pathname.startsWith(uploadthingApiPrefix);
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isLogoutRoute = nextUrl.pathname === "/logout";
 
-  if (isApiAuthRoute) {
+  if (isApiAuthRoute || isUploadthingApiRoute) {
     return null;
   }
 
