@@ -8,12 +8,11 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
-const co = {
-  serverName: "xyx",
-  src: "https://utfs.io/f/fff3a17f-07cb-40c0-8a93-7364b75b2044-biy9p6.png",
-};
-
-const JoinServerCard = () => {
+const JoinServerCard = ({ inviteCode }: { inviteCode: string }) => {
+  const co = {
+    serverName: "xyx",
+    src: "https://utfs.io/f/fff3a17f-07cb-40c0-8a93-7364b75b2044-biy9p6.png",
+  };
   const { serverName, src } = co;
   return (
     <Card className="w-[400px]">

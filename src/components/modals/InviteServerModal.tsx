@@ -9,22 +9,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useMount from "@/hooks/use-mount";
-import { UserServer } from "@/loaders/server";
+import useServer from "@/hooks/use-server";
 import { usePathname, useRouter } from "next/navigation";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { BsCheck, BsCopy } from "react-icons/bs";
 import { MdRefresh } from "react-icons/md";
+import { toast } from "sonner";
 
 type InviteServerModalProps = {
   isIntercepted?: boolean;
-  server: UserServer;
 };
 
-const InviteServerModal: FC<InviteServerModalProps> = ({
-  isIntercepted,
-  server,
-}) => {
-  const { id: serverId, inviteCode } = server;
+const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
+  const server = useServer();
   const pathname = usePathname();
   const router = useRouter();
   const isMounted = useMount();
@@ -32,9 +29,16 @@ const InviteServerModal: FC<InviteServerModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const isModalOpen = pathname === `/servers/${serverId}/invite`;
+  useEffect(() => {
+    if (isMounted && !server) {
+      toast.warning("You don't have access to this server");
+      router.push("/servers/not-found");
+    }
+  }, [isMounted, router, server]);
 
-  const inviteUrl = `${origin}/join/${inviteCode}`;
+  if (!server) return null;
+
+  const { id: serverId, inviteCode } = server;
 
   const onModalClose = (open: boolean) => {
     if (isIntercepted) {
@@ -52,6 +56,10 @@ const InviteServerModal: FC<InviteServerModalProps> = ({
       setCopied(false);
     }, 1000);
   };
+
+  const isModalOpen = pathname === `/servers/${serverId}/invite`;
+
+  const inviteUrl = `${origin}/servers/join/${inviteCode}`;
 
   if (!isMounted) return null;
 
@@ -72,6 +80,7 @@ const InviteServerModal: FC<InviteServerModalProps> = ({
               disabled={isLoading}
               className="border-0 bg-zinc-300/50 text-black focus-visible:ring-0 focus-visible:ring-offset-0"
               value={inviteUrl}
+              readOnly
             />
             <Button disabled={isLoading} onClick={onCopy} size="icon">
               {copied ? (
