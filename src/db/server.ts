@@ -36,6 +36,7 @@ export async function getServerListForUser(userId: string) {
   });
   return serverList;
 }
+
 export async function getServerByMemberId(serverId: string, memberId: string) {
   const server = await db.server.findFirst({
     where: {
@@ -72,6 +73,18 @@ export async function getServerDetailsByInviteCode(
           userId,
         },
       },
+    },
+  });
+  return server;
+}
+
+export async function updateServerInviteCode(serverId: string) {
+  const server = await db.server.update({
+    where: {
+      id: serverId,
+    },
+    data: {
+      inviteCode: uuidv4(),
     },
   });
   return server;

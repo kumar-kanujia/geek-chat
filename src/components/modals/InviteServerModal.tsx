@@ -1,4 +1,5 @@
 "use client";
+import { getNewInviteCode } from "@/actions/server";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,10 +9,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import useMemberProfile from "@/hooks/use-member-profile";
+
 import useMount from "@/hooks/use-mount";
-import useServer from "@/hooks/use-server";
+import serverContext from "@/context/serverContext";
+import useMemberProfile from "@/hooks/use-member-profile";
 import { MemberRole } from "@prisma/client";
+
 import { usePathname, useRouter } from "next/navigation";
 import { FC, useEffect, useState } from "react";
 import { BsCheck, BsCopy } from "react-icons/bs";
@@ -23,15 +26,15 @@ type InviteServerModalProps = {
 };
 
 const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
+  const [copied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
 
   const isMounted = useMount();
   const pathname = usePathname();
 
-  const [copied, setCopied] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const server = useServer();
+  const { server, setServer } = serverContext();
   const memberProfile = useMemberProfile();
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
     }
   }, [isIntercepted, isMounted, memberProfile, router, server?.id]);
 
-  if (!server || !memberProfile) return <></>;
+  if (!server || !memberProfile) return null;
 
   const { role } = memberProfile;
 
@@ -69,6 +72,17 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
     setTimeout(() => {
       setCopied(false);
     }, 1000);
+  };
+
+  const onNew = () => {
+    setIsLoading(true);
+    getNewInviteCode(serverId).then((server) => {
+      if (!server) return;
+      else {
+        setIsLoading(false);
+        setServer(server);
+      }
+    });
   };
 
   if (!isMounted) return null;
@@ -102,7 +116,7 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
               </Button>
             </div>
             <Button
-              // onClick={onNew}
+              onClick={onNew}
               disabled={isLoading}
               variant="link"
               size="sm"
@@ -117,4 +131,5 @@ const InviteServerModal: FC<InviteServerModalProps> = ({ isIntercepted }) => {
     );
   }
 };
+
 export default InviteServerModal;

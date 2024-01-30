@@ -9,10 +9,6 @@ type ServerMenuProps = {
 
 const ServerMenu: FC<ServerMenuProps> = ({ server, userRole }) => {
   const { id, name } = server;
-  return (
-    <>
-      <ServerHeader serverId={id} serverName={name} userRole={userRole} />
-    </>
-  );
+  return <ServerHeader serverId={id} serverName={name} userRole={userRole} />;
 };
 export default ServerMenu;

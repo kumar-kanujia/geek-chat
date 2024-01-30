@@ -3,7 +3,7 @@ import { currentUser } from "@/lib/auth";
 import { createServerFormSchema } from "@/schemas/serverSchema";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { createServerDB } from "@/db/server";
+import { createServerDB, updateServerInviteCode } from "@/db/server";
 import { createMemberProfile } from "@/db/member";
 
 export async function createServer(
@@ -25,7 +25,7 @@ export async function createServer(
   }
 }
 
-export const joinServer = async (serverId: string) => {
+export async function joinServer(serverId: string) {
   const user = await currentUser();
 
   if (!user) {
@@ -40,4 +40,20 @@ export const joinServer = async (serverId: string) => {
     console.log("Join server error joinServer", error);
     return false;
   }
-};
+}
+
+export async function getNewInviteCode(serverId: string) {
+  const user = await currentUser();
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  try {
+    const server = await updateServerInviteCode(serverId);
+    return server;
+  } catch (error) {
+    console.log("getNewInviteCode error", error);
+    return null;
+  }
+}
