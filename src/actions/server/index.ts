@@ -3,7 +3,11 @@ import { currentUser } from "@/lib/auth";
 import { createServerFormSchema } from "@/schemas/serverSchema";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { createServerDB, updateServerInviteCode } from "@/db/server";
+import {
+  createServerDB,
+  updateServerDB,
+  updateServerInviteCode,
+} from "@/db/server";
 import { createMemberProfile } from "@/db/member";
 
 export async function createServer(
@@ -22,6 +26,26 @@ export async function createServer(
   } catch (error) {
     console.log("CREATE SERVER ERROR", error);
     return { error: "Error creating server" };
+  }
+}
+
+export async function updateServer(
+  serverId: string,
+  values: z.infer<typeof createServerFormSchema>,
+) {
+  const user = await currentUser();
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+  const { name, imageUrl } = values;
+  try {
+    const server = await updateServerDB(serverId, name, imageUrl);
+    revalidatePath(`/servers/${server.id}`);
+    return { success: "Server updated successfully" };
+  } catch (error) {
+    console.log("UPDATE SERVER ERROR", error);
+    return { error: "Error updating server" };
   }
 }
 

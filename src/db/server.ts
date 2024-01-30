@@ -24,6 +24,23 @@ export async function createServerDB(
   return server;
 }
 
+export async function updateServerDB(
+  serverId: string,
+  serverName: string,
+  imageUrl: string,
+) {
+  const server = await db.server.update({
+    where: {
+      id: serverId,
+    },
+    data: {
+      name: serverName,
+      imageUrl: imageUrl,
+    },
+  });
+  return server;
+}
+
 export async function getServerListForUser(userId: string) {
   const serverList = await db.server.findMany({
     where: {

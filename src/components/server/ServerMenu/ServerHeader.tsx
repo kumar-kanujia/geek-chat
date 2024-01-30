@@ -61,9 +61,14 @@ const ServerHeader: FC<ServerHeaderProps> = ({
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm">
-            Server Settings
-            <FaCog className="ml-auto h-4 w-4" />
+          <DropdownMenuItem
+            className="cursor-pointer px-3 py-2 text-sm"
+            asChild
+          >
+            <Link href={`/servers/${serverId}/edit`}>
+              Server Settings
+              <FaCog className="ml-auto h-4 w-4" />
+            </Link>
           </DropdownMenuItem>
         )}
         {isAdmin && (
