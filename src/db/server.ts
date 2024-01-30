@@ -50,6 +50,9 @@ export async function getServerListForUser(userId: string) {
         },
       },
     },
+    orderBy: {
+      name: "asc",
+    },
   });
   return serverList;
 }
